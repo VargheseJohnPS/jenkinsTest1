@@ -22,12 +22,10 @@ class test1 extends Simulation {
   //		"Upgrade-Insecure-Requests" -> "1")
 
 
-  val demoFeeder = csv("csvFeed/demoFile.csv").circular
   val Demo2 = Iterator.continually(Map("email" -> (Random. alphanumeric.filter(_.isLetterOrDigit).take (8).mkString.toLowerCase())))
 
 
   val scn = scenario("DemoStoreGatling")
-    .feed(demoFeeder)
     .exec(http("Homepage")
       .get("/")
       .check(css("#_csrf", "content").saveAs("csrfValue")))
@@ -37,8 +35,8 @@ class test1 extends Simulation {
     .exec(http("loginPost")
       .post("/login")
       .formParam("_csrf", "${csrf}")
-      .formParam("username", "${username}")
-      .formParam("password", "${password}"))
+      .formParam("username", "user1")
+      .formParam("password", "pass"))
 
 
 
